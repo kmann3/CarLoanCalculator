@@ -25,7 +25,9 @@ struct IntTextField: View {
 
     var body: some View {
         TextField(name, text: $text)
+        #if os(iOS)
             .keyboardType(.numberPad)
+        #endif
             .focused($isFocused)
             .onAppear {
                 previousValue = value

@@ -25,7 +25,9 @@ struct PercentTextField: View {
 
     var body: some View {
         TextField(name, text: $text)
+        #if os(iOS)
             .keyboardType(.decimalPad)
+        #endif
             .focused($isFocused)
             .onAppear {
                 previousValue = value
