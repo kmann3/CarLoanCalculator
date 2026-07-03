@@ -33,6 +33,13 @@ struct PercentTextField: View {
                 previousValue = value
                 text = formatted(value)
             }
+            .onChange(of: value) { _, newValue in
+                // IMPORTANT: update internal text when binding changes externally
+                let newString = NumberFormatter.localPercentFormatter.string(from: NSDecimalNumber(decimal: newValue)) ?? ""
+                if text != newString {
+                    text = newString
+                }
+            }
             .onChange(of: isFocused) { _, focused in
                 if focused {
                     // Clear when editing begins, but remember previous committed value

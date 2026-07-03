@@ -16,6 +16,8 @@ struct CalculateLoanView: View {
     @State private var isAdvanced: Bool = false
     
     @StateObject private var loanSettingsViewModel: CalculateLoanViewModel
+    @State private var formInputsRefreshID = UUID()
+    @State private var showClearConfirmation = false
     
     //@State private var state // One day I'd like to be able to select a state and have it infer taxes
     @State private var loanInformation: LoanInformation = LoanInformation()
@@ -61,161 +63,184 @@ struct CalculateLoanView: View {
         }
     
     var body: some View {
-            VStack {
-                List {
-                    Section("") {
-                        HStack {
-                            Text("Car Amount")
-                            CurrencyTextField(name: "Car Price", value: $loanSettingsViewModel.carPrice)
-                                .onChange(of: loanSettingsViewModel.carPrice) { _, _ in
-                                    calculateLoan()
-                                }
-                        }
-                        
-                        HStack {
-                            Text("Loan Term")
-                            IntTextField(name: "Loan Term", value: $loanSettingsViewModel.loanTerm)
-                                .onChange(of: loanSettingsViewModel.loanTerm) { _, _ in
-                                    calculateLoan()
-                                }
-                        }
-                        
-                        HStack {
-                            Text("Loan Interest Rate")
-                            PercentTextField(name: "Loan Interest Rate", value: $loanSettingsViewModel.loanInterestRate)
-                                .onChange(of: loanSettingsViewModel.loanInterestRate) { _, _ in
-                                    calculateLoan()
-                                }
-                        }
-                        
-                        Button ("Expand Additional Fields") {
-                            withAnimation {
-                                isAdvanced.toggle()
+        NavigationStack {
+            List {
+                Section("") {
+                    HStack {
+                        Text("Car Amount")
+                        CurrencyTextField(name: "Car Price", value: $loanSettingsViewModel.carPrice)
+                            .onChange(of: loanSettingsViewModel.carPrice) { _, _ in
+                                calculateLoan()
                             }
-                        }
+                            .id(formInputsRefreshID)
                     }
                     
-                    Section("", isExpanded: $isAdvanced) {
-                        HStack {
-                            Text("Incentives")
-                            CurrencyTextField(name: "Incentives", value: $loanSettingsViewModel.incentives)
-                                .onChange(of: loanSettingsViewModel.incentives) { _, _ in
-                                    calculateLoan()
-                                }
-                        }
-                        
-                        HStack {
-                            Text("Addons")
-                            CurrencyTextField(name: "Addons", value: $loanSettingsViewModel.addons)
-                                .onChange(of: loanSettingsViewModel.addons) { _, _ in
-                                    calculateLoan()
-                                }
-                        }
-                        
-                        HStack {
-                            Text("Down Payment")
-                            CurrencyTextField(name: "Down Payment", value: $loanSettingsViewModel.downPayment)
-                                .onChange(of: loanSettingsViewModel.downPayment) { _, _ in
-                                    calculateLoan()
-                                }
-                        }
-                        
-                        HStack {
-                            Text("Trade-in Value")
-                            CurrencyTextField(name: "Trade-in Value", value: $loanSettingsViewModel.tradeInValue)
-                                .onChange(of: loanSettingsViewModel.tradeInValue) { _, _ in
-                                    calculateLoan()
-                                }
-                        }
-                        
-                        HStack {
-                            Text("Amount Owed")
-                            CurrencyTextField(name: "Amount Owed", value: $loanSettingsViewModel.tradeInOwed)
-                                .onChange(of: loanSettingsViewModel.tradeInOwed) { _, _ in
-                                    calculateLoan()
-                                }
-                        }
-                        
-                        //            // One day I'd like to have a drop down to pre-fill the tax information
-                        //            HStack {
-                        //                Text("Your State (Taxes)")
-                        //                TextField("", value: $loanTerm, format: .number)
-                        //                    .keyboardType(.numberPad)
-                        //            }
-                        
-                        HStack {
-                            Text("Sales Tax")
-                            PercentTextField(name: "Sales Tax", value: $loanSettingsViewModel.tax)
-                                .onChange(of: loanSettingsViewModel.tax) { _, _ in
-                                    calculateLoan()
-                                }
-                        }
-                        
-                        HStack {
-                            Text("Fees")
-                            CurrencyTextField(name: "Fees", value: $loanSettingsViewModel.fees)
-                                .onChange(of: loanSettingsViewModel.fees) { _, _ in
-                                    calculateLoan()
-                                }
-                        }
-                        .frame(height: isAdvanced ? nil : 0, alignment: .top)
-                        .clipped()
-                    }
-                    
-                    VStack {
-                        Text("Monthly Payment: \(loanInformation.displayMonthlyPayment)")
-                        Text("Total Amount: \(loanInformation.displayTotalLoanAmount)")
-                        Text("Sales Tax: \(displaySalesTaxAmount)")
-                        Text("Upfront Payment: \(displayUpfrontPayment)")
-                        Divider()
-                        Text("Total Interest Paid: \(loanInformation.displayTotalInterest)")
-                        GroupBox("Principal and Interest") {
-                            Chart {
-                                ForEach(loanInformation.principalInterestPieChartData, id: \.0) { item in
-                                    SectorMark(
-                                        angle: .value("Percent", item.1),
-                                        innerRadius: 0.5,
-                                        angularInset: 3.0
-                                    )
-                                    .foregroundStyle(by: .value("Item", item.0))
-                                    .annotation(position: .overlay) {
-                                        Text("\(item.0)")
-                                            .cornerRadius(5)
-                                            .padding(0)
-                                            .foregroundStyle(Color.white)
-                                    }
-                                }
+                    HStack {
+                        Text("Loan Term")
+                        IntTextField(name: "Loan Term", value: $loanSettingsViewModel.loanTerm)
+                            .onChange(of: loanSettingsViewModel.loanTerm) { _, _ in
+                                calculateLoan()
                             }
-                            .chartLegend(.visible)
-                            .frame(height: 260)
-                        }
+                            .id(formInputsRefreshID)
                     }
                     
-                    VStack {
-                        HStack {
-                            ShareLink("Share", item: self.toShareFullString)
-                                .padding()
-                                .font(.headline)
-//
-//                            Spacer()
-//                            Divider()
-//                            Spacer()
-//
-//                            ShareLink("Share Simple",
-//                                item: "Your text here",
-//                                subject: Text("Simple Overview:"),
-//                                message: Text("Here's some interesting text to share.")
-//                            )
-//                                .padding()
-//                                .font(.headline)
+                    HStack {
+                        Text("Loan Interest Rate")
+                        PercentTextField(name: "Loan Interest Rate", value: $loanSettingsViewModel.loanInterestRate)
+                            .onChange(of: loanSettingsViewModel.loanInterestRate) { _, _ in
+                                calculateLoan()
+                            }
+                            .id(formInputsRefreshID)
+                    }
+                    
+                    Button ("Expand Additional Fields") {
+                        withAnimation {
+                            isAdvanced.toggle()
                         }
-
                     }
                 }
+                
+                Section("", isExpanded: $isAdvanced) {
+                    HStack {
+                        Text("Incentives")
+                        CurrencyTextField(name: "Incentives", value: $loanSettingsViewModel.incentives)
+                            .onChange(of: loanSettingsViewModel.incentives) { _, _ in
+                                calculateLoan()
+                            }
+                            .id(formInputsRefreshID)
+                    }
+                    
+                    HStack {
+                        Text("Addons")
+                        CurrencyTextField(name: "Addons", value: $loanSettingsViewModel.addons)
+                            .onChange(of: loanSettingsViewModel.addons) { _, _ in
+                                calculateLoan()
+                            }
+                            .id(formInputsRefreshID)
+                        // Would like to add individual line items later
+//                        Button("Add Item") {
+//                            
+//                        }
+                    }
+                    
+                    HStack {
+                        Text("Down Payment")
+                        CurrencyTextField(name: "Down Payment", value: $loanSettingsViewModel.downPayment)
+                            .onChange(of: loanSettingsViewModel.downPayment) { _, _ in
+                                calculateLoan()
+                            }
+                            .id(formInputsRefreshID)
+                    }
+                    
+                    HStack {
+                        Text("Trade-in Value")
+                        CurrencyTextField(name: "Trade-in Value", value: $loanSettingsViewModel.tradeInValue)
+                            .onChange(of: loanSettingsViewModel.tradeInValue) { _, _ in
+                                calculateLoan()
+                            }
+                            .id(formInputsRefreshID)
+                    }
+                    
+                    HStack {
+                        Text("Amount Owed")
+                        CurrencyTextField(name: "Amount Owed", value: $loanSettingsViewModel.tradeInOwed)
+                            .onChange(of: loanSettingsViewModel.tradeInOwed) { _, _ in
+                                calculateLoan()
+                            }
+                            .id(formInputsRefreshID)
+                    }
+                    
+                    //            // One day I'd like to have a drop down to pre-fill the tax information
+                    //            HStack {
+                    //                Text("Your State (Taxes)")
+                    //                TextField("", value: $loanTerm, format: .number)
+                    //                    .keyboardType(.numberPad)
+                    //            }
+                    
+                    HStack {
+                        Text("Sales Tax")
+                        PercentTextField(name: "Sales Tax", value: $loanSettingsViewModel.tax)
+                            .onChange(of: loanSettingsViewModel.tax) { _, _ in
+                                calculateLoan()
+                            }
+                            .id(formInputsRefreshID)
+                    }
+                    
+                    HStack {
+                        Text("Fees")
+                        CurrencyTextField(name: "Fees", value: $loanSettingsViewModel.fees)
+                            .onChange(of: loanSettingsViewModel.fees) { _, _ in
+                                calculateLoan()
+                            }
+                            .id(formInputsRefreshID)
+                    }
+                    .frame(height: isAdvanced ? nil : 0, alignment: .top)
+                    .clipped()
+                }
+                
+                VStack {
+                    Text("Monthly Payment: \(loanInformation.displayMonthlyPayment)")
+                    Text("Total Amount: \(loanInformation.displayTotalLoanAmount)")
+                    Text("Sales Tax: \(displaySalesTaxAmount)")
+                    Text("Upfront Payment: \(displayUpfrontPayment)")
+                    Divider()
+                    Text("Total Interest Paid: \(loanInformation.displayTotalInterest)")
+                    GroupBox("Principal and Interest") {
+                        Chart {
+                            ForEach(loanInformation.principalInterestPieChartData, id: \.0) { item in
+                                SectorMark(
+                                    angle: .value("Percent", item.1),
+                                    innerRadius: 0.5,
+                                    angularInset: 3.0
+                                )
+                                .foregroundStyle(by: .value("Item", item.0))
+                                .annotation(position: .overlay) {
+                                    Text("\(item.0)")
+                                        .cornerRadius(5)
+                                        .padding(0)
+                                        .foregroundStyle(Color.white)
+                                }
+                            }
+                        }
+                        .chartLegend(.visible)
+                        .frame(height: 260)
+                    }
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    ShareLink("Share", item: toShareFullString)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showClearConfirmation = true
+                    } label: {
+                        Label("Clear All", systemImage: "trash")
+                    }
+                }
+            }
+            .confirmationDialog("Clear all fields?", isPresented: $showClearConfirmation) {
+                Button("Clear All", role: .destructive) {
+                    withAnimation {
+                        // End editing so fields commit and release focus
+                        #if os(iOS)
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        #endif
+                        
+                        loanSettingsViewModel.objectWillChange.send()
+                        clearData()
+                        
+                        debugPrint(self.loanInformation)
+                        debugPrint("---")
+                        debugPrint(toShareFullString)
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
             }
             .onAppear {
                 calculateLoan()
             }
+        }
     }
 
     func calculateLoan() {
@@ -254,10 +279,32 @@ struct CalculateLoanView: View {
 
         displayInterestPercent = "\(NSDecimalNumber(decimal: loanInformation.interestPercentOfLoan).rounding(accordingToBehavior: formatter).stringValue)%"
         displayPrincipalPercent = "\(NSDecimalNumber(decimal: loanInformation.principalPercentOfLoan).rounding(accordingToBehavior: formatter).stringValue)%"
+    }
+    
+    func clearData() {
+        loanSettingsViewModel.carPrice = 0
+        loanSettingsViewModel.loanTerm = 0
+        loanSettingsViewModel.loanInterestRate = 0
+        loanSettingsViewModel.incentives = 0
+        loanSettingsViewModel.addons = 0
+        loanSettingsViewModel.downPayment = 0
+        loanSettingsViewModel.tradeInValue = 0
+        loanSettingsViewModel.tradeInOwed = 0
+        loanSettingsViewModel.tax = 0
+        loanSettingsViewModel.fees = 0
         
-        print(toShareFullString)
-
-        //debugPrint(loanInformation.interestPercentOfLoan.number.rounded(rule: .nearest, increment: 1.0))
+        // Reset derived UI
+        loanInformation = LoanInformation()
+        displaySalesTaxAmount = "$0.00"
+        displayUpfrontPayment = "$0.00"
+        displayInterestPercent = ""
+        displayPrincipalPercent = ""
+        
+        formInputsRefreshID = UUID()
+        loanSettingsViewModel.objectWillChange.send()
+        
+        debugPrint("Cleared")
+        debugPrint(self.toShareFullString)
     }
 }
 
@@ -280,3 +327,4 @@ struct CalculateLoanView: View {
 #Preview("CalculatLoan - Empty; Might load for Cloud") {
     return CalculateLoanView()
 }
+
