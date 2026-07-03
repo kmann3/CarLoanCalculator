@@ -6,21 +6,8 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		DD896ED32FF65EA3009E9981 /* IconFromBing.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DD896ED22FF65EA3009E9981 /* IconFromBing.jpg */; };
-		DD896EF62FF74419009E9981 /* AppIcon-Dark.png in Resources */ = {isa = PBXBuildFile; fileRef = DD896EF42FF74419009E9981 /* AppIcon-Dark.png */; };
-		DD896EF72FF74419009E9981 /* AppIcon-Light.png in Resources */ = {isa = PBXBuildFile; fileRef = DD896EF52FF74419009E9981 /* AppIcon-Light.png */; };
-		DD896EFB2FF7465C009E9981 /* AppIcon-Tinted.png in Resources */ = {isa = PBXBuildFile; fileRef = DD896EFA2FF7465C009E9981 /* AppIcon-Tinted.png */; };
-		DD896EFD2FF7471F009E9981 /* AppIcon-Light-512.png in Resources */ = {isa = PBXBuildFile; fileRef = DD896EFC2FF7471F009E9981 /* AppIcon-Light-512.png */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		DD73CDEA2FF4165900B20F21 /* CarLoanCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarLoanCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD896ED22FF65EA3009E9981 /* IconFromBing.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IconFromBing.jpg; sourceTree = "<group>"; };
-		DD896EF42FF74419009E9981 /* AppIcon-Dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Dark.png"; sourceTree = "<group>"; };
-		DD896EF52FF74419009E9981 /* AppIcon-Light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Light.png"; sourceTree = "<group>"; };
-		DD896EFA2FF7465C009E9981 /* AppIcon-Tinted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Tinted.png"; sourceTree = "<group>"; };
-		DD896EFC2FF7471F009E9981 /* AppIcon-Light-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Light-512.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -45,11 +32,6 @@
 		DD73CDE12FF4165900B20F21 = {
 			isa = PBXGroup;
 			children = (
-				DD896EFC2FF7471F009E9981 /* AppIcon-Light-512.png */,
-				DD896EFA2FF7465C009E9981 /* AppIcon-Tinted.png */,
-				DD896EF42FF74419009E9981 /* AppIcon-Dark.png */,
-				DD896EF52FF74419009E9981 /* AppIcon-Light.png */,
-				DD896ED22FF65EA3009E9981 /* IconFromBing.jpg */,
 				DD73CDEC2FF4165900B20F21 /* CarLoanCalculator */,
 				DD73CDEB2FF4165900B20F21 /* Products */,
 			);
@@ -127,11 +109,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD896EFD2FF7471F009E9981 /* AppIcon-Light-512.png in Resources */,
-				DD896ED32FF65EA3009E9981 /* IconFromBing.jpg in Resources */,
-				DD896EF62FF74419009E9981 /* AppIcon-Dark.png in Resources */,
-				DD896EF72FF74419009E9981 /* AppIcon-Light.png in Resources */,
-				DD896EFB2FF7465C009E9981 /* AppIcon-Tinted.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +246,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				AUTOMATION_APPLE_EVENTS = NO;
 				CODE_SIGN_ENTITLEMENTS = CarLoanCalculator/CarLoanCalculator.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -333,6 +311,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				AUTOMATION_APPLE_EVENTS = NO;
 				CODE_SIGN_ENTITLEMENTS = CarLoanCalculator/CarLoanCalculator.entitlements;
 				CODE_SIGN_STYLE = Automatic;
