@@ -25,7 +25,6 @@ struct CalculateLoanView: View {
     @State private var displayUpfrontPayment: String = "$0.00"
     
     @State private var displayInterestPercent: String = ""
-    @State private var displayPrincipalPercent: String = ""
     
     public var toShareFullString: String {
         return #"""
@@ -278,7 +277,6 @@ struct CalculateLoanView: View {
         )
 
         displayInterestPercent = "\(NSDecimalNumber(decimal: loanInformation.interestPercentOfLoan).rounding(accordingToBehavior: formatter).stringValue)%"
-        displayPrincipalPercent = "\(NSDecimalNumber(decimal: loanInformation.principalPercentOfLoan).rounding(accordingToBehavior: formatter).stringValue)%"
     }
     
     func clearData() {
@@ -298,13 +296,9 @@ struct CalculateLoanView: View {
         displaySalesTaxAmount = "$0.00"
         displayUpfrontPayment = "$0.00"
         displayInterestPercent = ""
-        displayPrincipalPercent = ""
         
         formInputsRefreshID = UUID()
         loanSettingsViewModel.objectWillChange.send()
-        
-        debugPrint("Cleared")
-        debugPrint(self.toShareFullString)
     }
 }
 
