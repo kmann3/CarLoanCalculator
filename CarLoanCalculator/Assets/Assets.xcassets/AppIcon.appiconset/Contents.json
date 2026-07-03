@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "AppIcon-Light.png",
+      "filename" : "AppIcon_Light.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "AppIcon-Dark.png",
+      "filename" : "AppIcon_Dark_Transparent.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -66,19 +66,19 @@
       "size" : "256x256"
     },
     {
-      "filename" : "AppIcon-Light-512.png",
+      "filename" : "AppIcon_Light_512.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
-      "filename" : "AppIcon-Light-512 1.png",
+      "filename" : "AppIcon_Light_512 1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
-      "filename" : "AppIcon-Light 1.png",
+      "filename" : "AppIcon_Light 1.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
