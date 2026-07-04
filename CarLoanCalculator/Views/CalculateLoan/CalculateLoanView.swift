@@ -76,6 +76,8 @@ struct CalculateLoanView: View {
                                 calculateLoan()
                             }
                             .id(formInputsRefreshID)
+                            .accessibilityLabel("Car price")
+                            .accessibilityHint("Enter the price of the vehicle before incentives and fees")
                     }
                     
                     HStack {
@@ -84,7 +86,7 @@ struct CalculateLoanView: View {
                             .onChange(of: loanSettingsViewModel.loanTerm) { _, _ in
                                 calculateLoan()
                             }
-                            .accessibilityLabel(Text("Loan Term in months"))
+                            .accessibilityLabel("Loan term in months")
                             .accessibilityHint("Enter the number of months for the loan")
                             .id(formInputsRefreshID)
                     }
@@ -96,6 +98,8 @@ struct CalculateLoanView: View {
                                 calculateLoan()
                             }
                             .id(formInputsRefreshID)
+                            .accessibilityLabel("Annual interest rate")
+                            .accessibilityHint("Enter the annual percentage rate")
                     }
                     
                     Button ("Expand Additional Fields") {
@@ -113,6 +117,8 @@ struct CalculateLoanView: View {
                                 calculateLoan()
                             }
                             .id(formInputsRefreshID)
+                            .accessibilityLabel("Incentives")
+                            .accessibilityHint("Enter the amount of incentives applied to the purchase")
                     }
                     
                     HStack {
@@ -122,6 +128,8 @@ struct CalculateLoanView: View {
                                 calculateLoan()
                             }
                             .id(formInputsRefreshID)
+                            .accessibilityLabel("Add-ons")
+                            .accessibilityHint("Enter the total cost of add-ons")
                         // Would like to add individual line items later
 //                        Button("Add Item") {
 //                            
@@ -135,6 +143,8 @@ struct CalculateLoanView: View {
                                 calculateLoan()
                             }
                             .id(formInputsRefreshID)
+                            .accessibilityLabel("Down payment")
+                            .accessibilityHint("Enter the amount paid upfront")
                     }
                     
                     HStack {
@@ -144,6 +154,8 @@ struct CalculateLoanView: View {
                                 calculateLoan()
                             }
                             .id(formInputsRefreshID)
+                            .accessibilityLabel("Trade-in value")
+                            .accessibilityHint("Enter the value of your trade-in")
                     }
                     
                     HStack {
@@ -153,6 +165,8 @@ struct CalculateLoanView: View {
                                 calculateLoan()
                             }
                             .id(formInputsRefreshID)
+                            .accessibilityLabel("Amount owed on trade-in")
+                            .accessibilityHint("Enter the remaining loan balance for your trade-in")
                     }
                     
                     //            // One day I'd like to have a drop down to pre-fill the tax information
@@ -169,6 +183,8 @@ struct CalculateLoanView: View {
                                 calculateLoan()
                             }
                             .id(formInputsRefreshID)
+                            .accessibilityLabel("Sales tax")
+                            .accessibilityHint("Enter your local sales tax percentage")
                     }
                     
                     HStack {
@@ -178,6 +194,8 @@ struct CalculateLoanView: View {
                                 calculateLoan()
                             }
                             .id(formInputsRefreshID)
+                            .accessibilityLabel("Fees")
+                            .accessibilityHint("Enter total fees such as registration and documentation")
                     }
                     .frame(height: isAdvanced ? nil : 0, alignment: .top)
                     .clipped()
