@@ -19,6 +19,9 @@ struct CalculateLoanView: View {
     @State private var formInputsRefreshID = UUID()
     @State private var showClearConfirmation = false
     
+    private enum Field: Hashable { case carAmount }
+    @FocusState private var focusedField: Field?
+    
     //@State private var state // One day I'd like to be able to select a state and have it infer taxes
     @State private var loanInformation: LoanInformation = LoanInformation()
     @State private var displaySalesTaxAmount: String = "$0.00"
@@ -68,6 +71,7 @@ struct CalculateLoanView: View {
                     HStack {
                         Text("Car Amount")
                         CurrencyTextField(name: "Car Price", value: $loanSettingsViewModel.carPrice)
+                            .focused($focusedField, equals: .carAmount)
                             .onChange(of: loanSettingsViewModel.carPrice) { _, _ in
                                 calculateLoan()
                             }
@@ -80,6 +84,8 @@ struct CalculateLoanView: View {
                             .onChange(of: loanSettingsViewModel.loanTerm) { _, _ in
                                 calculateLoan()
                             }
+                            .accessibilityLabel(Text("Loan Term in months"))
+                            .accessibilityHint("Enter the number of months for the loan")
                             .id(formInputsRefreshID)
                     }
                     
@@ -179,12 +185,16 @@ struct CalculateLoanView: View {
                 
                 VStack {
                     Text("Monthly Payment: \(loanInformation.displayMonthlyPayment)")
+                        .accessibilityLabel("Monthly payment")
+                        .accessibilityValue(loanInformation.displayMonthlyPayment) // I need to test and see how this looks / sounds
                     Text("Total Amount: \(loanInformation.displayTotalLoanAmount)")
                     Text("Sales Tax: \(displaySalesTaxAmount)")
                     Text("Upfront Payment: \(displayUpfrontPayment)")
                     Divider()
                     Text("Total Interest Paid: \(loanInformation.displayTotalInterest)")
-                    GroupBox("Principal and Interest") {
+                    Group {
+                        Text("Principal and Interest")
+                            .font(.headline)
                         Chart {
                             ForEach(loanInformation.principalInterestPieChartData, id: \.0) { item in
                                 SectorMark(
@@ -203,9 +213,15 @@ struct CalculateLoanView: View {
                         }
                         .chartLegend(.visible)
                         .frame(height: 260)
+                        
+                        Text("\(self.displayInterestPercent) percent of the loan is interest")
+                            .accessibilityLabel("Interest breakdown")
+                            .accessibilityValue("\(self.displayInterestPercent) percent of the loan is interest")
+                        
                     }
                 }
             }
+            .scrollDismissesKeyboard(.interactively) // Test this versus immedietly
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     ShareLink("Share", item: toShareFullString)
@@ -229,9 +245,10 @@ struct CalculateLoanView: View {
                         loanSettingsViewModel.objectWillChange.send()
                         clearData()
                         
-                        debugPrint(self.loanInformation)
-                        debugPrint("---")
-                        debugPrint(toShareFullString)
+#if os(iOS)
+                        UIAccessibility.post(notification: .announcement, argument: "All fields cleared")
+#endif
+                        focusedField = .carAmount
                     }
                 }
                 Button("Cancel", role: .cancel) {}
